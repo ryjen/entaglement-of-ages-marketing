@@ -1,0 +1,53 @@
+name: Editorial or contributor interest
+description: Register interest in editing, beta reading, subject-matter review, or another contribution to Entanglement of Ages.
+title: "Editorial interest: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        All three books are currently editorial-beta manuscripts. This public issue is only for registering interest.
+
+        Do not include manuscript text, spoilers, unreleased canon, raw editorial feedback, private correspondence, contracts, payment details, email addresses, phone numbers, or other unnecessary personal information. Private manuscript access and substantive editorial work are coordinated separately.
+
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Contribution type
+      description: What kind of contribution are you interested in?
+      options:
+        - Developmental editing
+        - Copy or line editing
+        - Beta reading
+        - Continuity or canon review
+        - Subject-matter or factual review
+        - Sensitivity or perspective review
+        - Marketing or public-site contribution
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Relevant background
+      description: Briefly describe experience or perspective relevant to the contribution. Keep this publication-safe and avoid unnecessary personal information.
+      placeholder: A few sentences are enough.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Area of interest
+      description: Describe what you would most like to help review or improve without including spoilers or unpublished story details.
+      placeholder: For example: structural editing across the trilogy, historical plausibility, AI/personhood themes, prose clarity, or public-site copy.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Public/private boundary
+      options:
+        - label: I understand that this public issue is intake only and that I should not post manuscript text, spoilers, unreleased canon, private feedback, or personal contact information here.
+          required: true

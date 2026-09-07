@@ -2,6 +2,16 @@
 
 This repository is a public publication surface. Do not use it for drafting, canon development, editorial notes, research, private publishing records, or unreleased creative material.
 
+## Editorial beta participation
+
+All three books in *Entanglement of Ages* are currently editorial-beta manuscripts. Editors, beta readers, subject-matter readers, and other contributors are welcome to register interest through the public editorial-interest issue form.
+
+The public issue is intake only. Use it to describe the kind of contribution you are interested in, relevant background, and the scope you would like to review. Do **not** post manuscript text, spoilers, unreleased canon, raw editorial feedback, private correspondence, contracts, payment details, email addresses, phone numbers, or other unnecessary personal information.
+
+Private manuscript access and substantive editorial work are coordinated separately. External feedback is treated as evidence rather than authority and is handled under the private project's editorial-operations rules before any resulting change becomes canon or approved public material.
+
+Public pull requests to this repository remain limited to publication-safe marketing/site material; an editorial-interest issue does not grant access to private source material or change that boundary.
+
 ## Publication boundary
 
 - Every file under `src/` is deployable and must have exactly one entry in `public-manifest.json`.
