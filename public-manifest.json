@@ -43,7 +43,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/the-fatherless/",
-      "checksum_sha256": "9108e276b469bc7d54c731a30040a85227f713f0ca58aac0e7a25d5e6d8167e3",
+      "checksum_sha256": "15de9612e209c566e0c647853812b32f89ec6c5444f7c49ff0d11d96675c1b76",
       "replacement_status": "current"
     },
     {
@@ -58,7 +58,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/prequel/",
-      "checksum_sha256": "b9b5170ae79e5d36f5b5e9eba883525260ebb45fde3913f45c09d1a5f7d6a480",
+      "checksum_sha256": "927668b6723b68b8e36c6bc7f53301af3f0a0b563914835bef26c8b00d9246b9",
       "replacement_status": "current"
     },
     {
@@ -73,7 +73,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/sequel/",
-      "checksum_sha256": "7be4dd304457a1f388cad74ec3ab72529c1176eb89774774d6793b950c41b31f",
+      "checksum_sha256": "03071946dfeb71539ec8595fad018da0282ee4ffc7c56ebf6fdac2eb545936d5",
       "replacement_status": "current"
     },
     {
