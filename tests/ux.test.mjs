@@ -1,14 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import crypto from 'node:crypto';
-import { readFile, readFileSync } from 'node:fs';
-import { promises as fs } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const read = relative => fs.readFile(path.join(root, relative), 'utf8');
-console.log(`homepage-sha256=${crypto.createHash('sha256').update(readFileSync(path.join(root, 'src/index.html'))).digest('hex')}`);
+const read = relative => readFile(path.join(root, relative), 'utf8');
 
 test('homepage keeps a focused story-first journey', async () => {
   const html = await read('src/index.html');
