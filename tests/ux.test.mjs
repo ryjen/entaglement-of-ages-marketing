@@ -1,11 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import crypto from 'node:crypto';
+import { readFile, readFileSync } from 'node:fs';
+import { promises as fs } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const read = relative => readFile(path.join(root, relative), 'utf8');
+const read = relative => fs.readFile(path.join(root, relative), 'utf8');
+const homepagePath = path.join(root, 'src/index.html');
+console.log(`homepage-sha256=${crypto.createHash('sha256').update(readFileSync(homepagePath)).digest('hex')}`);
 
 test('homepage keeps a focused story-first journey', async () => {
   const html = await read('src/index.html');
@@ -18,7 +22,7 @@ test('homepage keeps a focused story-first journey', async () => {
     .map(match => match[1].trim());
   assert.deepEqual(heroActions, ['Explore the trilogy', 'Help shape the books']);
 
-  const betaStatus = html.indexOf('class="beta-status"');
+  const betaStatus = html.search(/class="[^"]*\bbeta-status\b[^"]*"/);
   const trilogy = html.indexOf('id="trilogy"');
   const arcs = html.indexOf('id="arcs-title"');
   const editorial = html.indexOf('id="editorial-beta"');
@@ -29,6 +33,8 @@ test('homepage keeps a focused story-first journey', async () => {
   assert.ok(trilogy < arcs, 'the trilogy should lead into recurring questions');
   assert.ok(arcs < editorial, 'editorial participation should follow story and themes');
   assert.ok(editorial < updates, 'release follow-up should come after editorial participation');
+  assert.match(html, /class="panel beta-status"/, 'beta status should retain the stable panel fallback');
+  assert.match(html, /class="theme-mark beta-status__label"/, 'beta label should retain the stable theme-mark fallback');
 });
 
 test('mobile reader navigation stays compact and touch sized', async () => {
