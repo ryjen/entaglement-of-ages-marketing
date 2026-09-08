@@ -1,11 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import crypto from 'node:crypto';
+import { readFile, readFileSync } from 'node:fs';
+import { promises as fs } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const read = relative => readFile(path.join(root, relative), 'utf8');
+const read = relative => fs.readFile(path.join(root, relative), 'utf8');
+console.log(`homepage-sha256=${crypto.createHash('sha256').update(readFileSync(path.join(root, 'src/index.html'))).digest('hex')}`);
 
 test('homepage keeps a focused story-first journey', async () => {
   const html = await read('src/index.html');
@@ -29,7 +32,7 @@ test('homepage keeps a focused story-first journey', async () => {
   assert.ok(trilogy < arcs, 'the trilogy should lead into recurring questions');
   assert.ok(arcs < editorial, 'editorial participation should follow story and themes');
   assert.ok(editorial < updates, 'release follow-up should come after editorial participation');
-  assert.match(html, /class="panel beta-status"/, 'beta status should retain the stable panel fallback');
+  assert.match(html, /class="editorial-section panel beta-status"/, 'beta status should retain stable layout and panel fallbacks');
   assert.match(html, /class="theme-mark beta-status__label"/, 'beta label should retain the stable theme-mark fallback');
 });
 
