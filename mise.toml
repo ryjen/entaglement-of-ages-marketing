@@ -25,6 +25,11 @@ description = "Validate source and built HTML with the pinned offline HTML valid
 depends = ["build"]
 run = "npx --no-install html-validate \"src/**/*.html\" \"dist/**/*.html\""
 
+[tasks.css]
+description = "Validate source and built CSS with the pinned offline CSS validator"
+depends = ["build"]
+run = "npx --no-install stylelint \"src/**/*.css\" \"dist/**/*.css\""
+
 [tasks.validate]
 description = "Validate the built artifact and performance budgets"
 depends = ["build"]
@@ -42,5 +47,5 @@ run = "node tools/site.mjs browser"
 
 [tasks.check]
 description = "Run the complete public-site validation gate"
-depends = ["contracts", "html", "browser"]
+depends = ["contracts", "html", "css", "browser"]
 run = "node --check tools/site.mjs && node --check tools/validate-release-state.mjs && node --check tools/validate-public-language.mjs"
