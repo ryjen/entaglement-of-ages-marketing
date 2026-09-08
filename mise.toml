@@ -20,6 +20,11 @@ description = "Build dist from manifest-backed publishable source"
 depends = ["source"]
 run = "node tools/site.mjs build"
 
+[tasks.html]
+description = "Validate source and built HTML with the pinned offline HTML validator"
+depends = ["build"]
+run = "npx --no-install html-validate \"src/**/*.html\" \"dist/**/*.html\""
+
 [tasks.validate]
 description = "Validate the built artifact and performance budgets"
 depends = ["build"]
@@ -37,5 +42,5 @@ run = "node tools/site.mjs browser"
 
 [tasks.check]
 description = "Run the complete public-site validation gate"
-depends = ["contracts", "browser"]
+depends = ["contracts", "html", "browser"]
 run = "node --check tools/site.mjs && node --check tools/validate-release-state.mjs && node --check tools/validate-public-language.mjs"
