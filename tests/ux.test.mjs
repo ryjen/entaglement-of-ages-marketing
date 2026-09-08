@@ -18,7 +18,7 @@ test('homepage keeps a focused story-first journey', async () => {
     .map(match => match[1].trim());
   assert.deepEqual(heroActions, ['Explore the trilogy', 'Help shape the books']);
 
-  const betaStatus = html.indexOf('class="beta-status"');
+  const betaStatus = html.search(/class="[^"]*\bbeta-status\b[^"]*"/);
   const trilogy = html.indexOf('id="trilogy"');
   const arcs = html.indexOf('id="arcs-title"');
   const editorial = html.indexOf('id="editorial-beta"');
@@ -29,6 +29,8 @@ test('homepage keeps a focused story-first journey', async () => {
   assert.ok(trilogy < arcs, 'the trilogy should lead into recurring questions');
   assert.ok(arcs < editorial, 'editorial participation should follow story and themes');
   assert.ok(editorial < updates, 'release follow-up should come after editorial participation');
+  assert.match(html, /class="editorial-section panel beta-status"/, 'beta status should retain stable layout and panel fallbacks');
+  assert.match(html, /class="theme-mark beta-status__label"/, 'beta label should retain the stable theme-mark fallback');
 });
 
 test('mobile reader navigation stays compact and touch sized', async () => {
