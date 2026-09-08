@@ -1,5 +1,13 @@
 /* Homepage post-v2 polish: normalize supporting-card alignment and compact beta CTA wrapping. */
 
+.home-hero__panel h1 {
+  font-size: clamp(2.55rem, 11.5vw, 10.5rem);
+}
+
+.home-title__word {
+  white-space: nowrap;
+}
+
 .beta-status a {
   display: inline-block;
   white-space: nowrap;
