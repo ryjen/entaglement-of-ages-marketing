@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.62.0",
+    "html-validate": "8.27.0",
     "sharp": "0.35.3"
   }
 }
