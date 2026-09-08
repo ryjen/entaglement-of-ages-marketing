@@ -13,7 +13,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/",
-      "checksum_sha256": "ed33488d66d78ddb7d7820ed2c191f7321c3bf5b890709feb111ae03f25cbc90",
+      "checksum_sha256": "b3c40d67f97e476b95e4111cd61b6af7e7b4a12ded693a058e126e6e682888e8",
       "replacement_status": "current"
     },
     {
@@ -28,7 +28,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/",
-      "checksum_sha256": "91516544f811e71813f6df03b9c5d452c339e5f83681ea2f77c444b71caef36c",
+      "checksum_sha256": "8b3e2eb6d2679cb4ed7554d22591a27bf367c9f6cfdefb3e985225c6c171a4ba",
       "replacement_status": "current"
     },
     {
@@ -43,7 +43,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/the-fatherless/",
-      "checksum_sha256": "15de9612e209c566e0c647853812b32f89ec6c5444f7c49ff0d11d96675c1b76",
+      "checksum_sha256": "55c506dd33742a1ee11ff1c8c23db116f2ea33df59bf77a2c629820e0cca6f67",
       "replacement_status": "current"
     },
     {
@@ -58,7 +58,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/prequel/",
-      "checksum_sha256": "927668b6723b68b8e36c6bc7f53301af3f0a0b563914835bef26c8b00d9246b9",
+      "checksum_sha256": "1cb85a631a50053f4c42a284a666cd926b678af51e15bf0c3f6e9d37376d99ec",
       "replacement_status": "current"
     },
     {
@@ -73,7 +73,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/sequel/",
-      "checksum_sha256": "03071946dfeb71539ec8595fad018da0282ee4ffc7c56ebf6fdac2eb545936d5",
+      "checksum_sha256": "d59dc30d259baeff5ee8ebc7cc330bc00db5af177491f2ac8dc6333d78dc2fc9",
       "replacement_status": "current"
     },
     {
@@ -103,7 +103,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/world/",
-      "checksum_sha256": "73a228667829deb456a92ae5d49834fd00d59b318dc76f7a817daa17a4b25d8c",
+      "checksum_sha256": "694be113a7d2b921cf3abdf61598885be0e78945295ee929f5a9eb84106d33ab",
       "replacement_status": "current"
     },
     {
