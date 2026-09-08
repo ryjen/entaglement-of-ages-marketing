@@ -118,7 +118,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/news/",
-      "checksum_sha256": "34028972db6ae7b7cadbaf8b27dbcf20a52406ec69d4651c9d77773f57a959ba",
+      "checksum_sha256": "7ad3a8082a4f84cb6940837d913378a4c7676f85937d477f66bb11bf26bd30a5",
       "replacement_status": "current"
     },
     {
@@ -133,7 +133,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/about/",
-      "checksum_sha256": "736311c44ac7416c4d90354536e4bef8726730ab9a030d9fb95dfea2b7441020",
+      "checksum_sha256": "9fa1f549a4691f9f56e82f53184e8ae9c0c1fb66013cd959cbd3956c68ac4cd8",
       "replacement_status": "current"
     },
     {
@@ -215,7 +215,7 @@
       "id": "style-trilogy-pages-v1",
       "path": "src/styles/trilogy-pages.v1.css",
       "title": "Trilogy overview pages v1",
-      "summary": "Shared three-age hero treatment for the books and world overview pages.",
+      "summary": "Shared three-age hero treatment for series-level overview pages.",
       "content_type": "site-asset",
       "spoiler_tier": "placeholder",
       "approval_state": "placeholder",
@@ -412,7 +412,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/press/",
-      "checksum_sha256": "b6e37e636c8a2a23b4221dd861edf4c41bc475d0b156756ea9b7133be9b14f4d",
+      "checksum_sha256": "2bbf30cd68b45dbf4e24011aa1c3c04e35f92099ddfff894a56b16a3285ff958",
       "replacement_status": "current"
     },
     {
@@ -427,7 +427,7 @@
       "provenance_class": "public-native",
       "publication_date": "2026-08-08",
       "canonical_url": "/news/2026-08-08-public-trilogy-site/",
-      "checksum_sha256": "b806472252a8f850e0ac87531d96f6f7eaf7f73de4a4d081abc22296040420f2",
+      "checksum_sha256": "5e0611d63e6285fee88c73631e6f7d9974fcb4332f6b55d78af9e9b17670ca19",
       "replacement_status": "current"
     },
     {
