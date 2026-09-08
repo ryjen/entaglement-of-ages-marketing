@@ -2,8 +2,29 @@ const { test, expect } = require('@playwright/test');
 const sharp = require('sharp');
 
 const base = process.env.SITE_BASE_URL || 'http://127.0.0.1:4173/';
-const readerRoutes = ['', 'books/', 'books/prequel/', 'books/the-fatherless/', 'books/sequel/', 'world/'];
-const heroRoutes = ['', 'books/prequel/', 'books/the-fatherless/', 'books/sequel/', 'world/'];
+const readerRoutes = [
+  '',
+  'books/',
+  'books/prequel/',
+  'books/the-fatherless/',
+  'books/sequel/',
+  'world/',
+  'about/',
+  'news/',
+  'news/2026-08-08-public-trilogy-site/',
+  'press/',
+  'characters/',
+];
+const heroRoutes = [
+  '',
+  'books/prequel/',
+  'books/the-fatherless/',
+  'books/sequel/',
+  'world/',
+  'about/',
+  'news/',
+  'press/',
+];
 const viewports = [
   { name: 'mobile', width: 375, height: 812 },
   { name: 'desktop', width: 1440, height: 1000 },
