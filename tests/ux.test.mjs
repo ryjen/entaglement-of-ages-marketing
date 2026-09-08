@@ -47,10 +47,10 @@ test('homepage keeps a focused story-first journey', async () => {
 test('homepage polish keeps supporting content restrained and wrap-safe', async () => {
   const css = await read('src/styles/home-polish.v1.css');
 
-  assert.match(css, /\.home-hero__panel h1 \{[^}]*overflow-wrap:\s*normal;[^}]*word-break:\s*normal;/s, 'hero title should never break inside Entanglement');
-  assert.match(css, /\.beta-status a \{[^}]*white-space:\s*nowrap;/s, 'editorial beta CTA should stay together');
-  assert.match(css, /\.trilogy-question-grid article \{[^}]*justify-items:\s*center;[^}]*text-align:\s*center;/s, 'question cards should be consistently centered');
-  assert.match(css, /\.trilogy-question-grid p \{[^}]*font:\s*500 clamp\(1\.05rem,\s*1\.4vw,\s*1\.3rem\)\/1\.45 var\(--font-sans\);/s, 'question copy should remain supporting text rather than headline scale');
+  assert.match(css, /\.home-hero__panel h1\{[^}]*overflow-wrap:normal;[^}]*word-break:normal/, 'hero title should never break inside Entanglement');
+  assert.match(css, /\.beta-status a\{[^}]*white-space:nowrap/, 'editorial beta CTA should stay together');
+  assert.match(css, /\.trilogy-question-grid article\{[^}]*justify-items:center;[^}]*text-align:center/, 'question cards should be consistently centered');
+  assert.match(css, /\.trilogy-question-grid p\{[^}]*font:500 clamp\(1\.05rem,1\.4vw,1\.3rem\)\/1\.45 var\(--font-sans\)/, 'question copy should remain supporting text rather than headline scale');
 });
 
 test('core reader pages share one primary navigation contract', async () => {
@@ -66,7 +66,7 @@ test('core reader pages share one primary navigation contract', async () => {
 
 test('books and world use the shared three-age hero treatment', async () => {
   const css = await read('src/styles/trilogy-pages.v1.css');
-  assert.match(css, /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/, 'trilogy overview hero should present three equal visual ages');
+  assert.match(css, /grid-template-columns:repeat\(3,1fr\)/, 'trilogy overview hero should present three equal visual ages');
 
   for (const pagePath of ['src/books/index.html', 'src/world/index.html']) {
     const html = await read(pagePath);
