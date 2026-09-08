@@ -182,6 +182,21 @@
       "replacement_status": "current"
     },
     {
+      "id": "style-home-polish-v1",
+      "path": "src/styles/home-polish.v1.css",
+      "title": "Homepage polish v1",
+      "summary": "Post-v2 homepage typography, alignment, and responsive wrapping refinements.",
+      "content_type": "site-asset",
+      "spoiler_tier": "placeholder",
+      "approval_state": "placeholder",
+      "rights_status": "repository-authored",
+      "provenance_class": "public-native",
+      "publication_date": null,
+      "canonical_url": "/styles/home-polish.v1.css",
+      "checksum_sha256": null,
+      "replacement_status": "current"
+    },
+    {
       "id": "style-arcs-v1",
       "path": "src/styles/arcs.v1.css",
       "title": "Trilogy thematic arcs v1",
@@ -193,6 +208,21 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/styles/arcs.v1.css",
+      "checksum_sha256": null,
+      "replacement_status": "current"
+    },
+    {
+      "id": "style-trilogy-pages-v1",
+      "path": "src/styles/trilogy-pages.v1.css",
+      "title": "Trilogy overview pages v1",
+      "summary": "Shared three-age hero treatment for the books and world overview pages.",
+      "content_type": "site-asset",
+      "spoiler_tier": "placeholder",
+      "approval_state": "placeholder",
+      "rights_status": "repository-authored",
+      "provenance_class": "public-native",
+      "publication_date": null,
+      "canonical_url": "/styles/trilogy-pages.v1.css",
       "checksum_sha256": null,
       "replacement_status": "current"
     },
