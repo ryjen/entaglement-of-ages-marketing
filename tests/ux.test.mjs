@@ -7,13 +7,25 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = relative => readFile(path.join(root, relative), 'utf8');
 
-const readerPages = [
+const publicHtmlPages = [
   'src/index.html',
   'src/books/index.html',
   'src/books/prequel/index.html',
   'src/books/the-fatherless/index.html',
   'src/books/sequel/index.html',
   'src/world/index.html',
+  'src/about/index.html',
+  'src/news/index.html',
+  'src/news/2026-08-08-public-trilogy-site/index.html',
+  'src/press/index.html',
+  'src/characters/index.html',
+];
+const trilogyOverviewPages = [
+  'src/books/index.html',
+  'src/world/index.html',
+  'src/about/index.html',
+  'src/news/index.html',
+  'src/press/index.html',
 ];
 const primaryNavLabels = ['Home', 'The trilogy', 'Books', 'World', 'About', 'News'];
 
@@ -53,22 +65,23 @@ test('homepage polish keeps supporting content restrained and wrap-safe', async 
   assert.match(css, /\.trilogy-question-grid p\{[^}]*font:500 clamp\(1\.05rem,1\.4vw,1\.3rem\)\/1\.45 var\(--font-sans\)/, 'question copy should remain supporting text rather than headline scale');
 });
 
-test('core reader pages share one primary navigation contract', async () => {
-  for (const pagePath of readerPages) {
+test('all public HTML surfaces share one primary navigation contract', async () => {
+  for (const pagePath of publicHtmlPages) {
     const html = await read(pagePath);
     const nav = html.match(/<nav class="primary-nav"[^>]*>([\s\S]*?)<\/nav>/);
     assert.ok(nav, `${pagePath} must contain the primary navigation`);
     const labels = [...nav[1].matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map(match => match[1].trim());
     assert.deepEqual(labels, primaryNavLabels, `${pagePath} should use the shared primary nav order and labels`);
     assert.doesNotMatch(nav[1], />Characters</, `${pagePath} should keep Characters out of primary navigation`);
+    assert.doesNotMatch(nav[1], />Press</, `${pagePath} should keep Press as a contextual industry destination rather than primary navigation`);
   }
 });
 
-test('books and world use the shared three-age hero treatment', async () => {
+test('series-level overview pages use the shared three-age hero treatment', async () => {
   const css = await read('src/styles/trilogy-pages.v1.css');
   assert.match(css, /grid-template-columns:repeat\(3,1fr\)/, 'trilogy overview hero should present three equal visual ages');
 
-  for (const pagePath of ['src/books/index.html', 'src/world/index.html']) {
+  for (const pagePath of trilogyOverviewPages) {
     const html = await read(pagePath);
     assert.match(html, /styles\/trilogy-pages\.v1\.css/, `${pagePath} should load the trilogy overview stylesheet`);
     assert.match(html, /class="hero trilogy-page-hero"/, `${pagePath} should use the trilogy hero`);
