@@ -145,7 +145,7 @@ The first era-specific reset after the original-theme split uses `prequel.v2.css
 `performance-budget.json` defines enforceable static budgets. The current baseline limits:
 
 - individual HTML: 24 KiB;
-- total shared/theme CSS: 32 KiB;
+- total shared/theme CSS: 33 KiB;
 - initial page requests represented in markup: 12;
 - external third-party requests: zero;
 - render-blocking scripts: zero.
