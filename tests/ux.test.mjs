@@ -7,6 +7,16 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = relative => readFile(path.join(root, relative), 'utf8');
 
+const readerPages = [
+  'src/index.html',
+  'src/books/index.html',
+  'src/books/prequel/index.html',
+  'src/books/the-fatherless/index.html',
+  'src/books/sequel/index.html',
+  'src/world/index.html',
+];
+const primaryNavLabels = ['Home', 'The trilogy', 'Books', 'World', 'About', 'News'];
+
 test('homepage keeps a focused story-first journey', async () => {
   const html = await read('src/index.html');
   const heroStart = html.indexOf('<section class="hero hero--trilogy');
@@ -31,6 +41,41 @@ test('homepage keeps a focused story-first journey', async () => {
   assert.ok(editorial < updates, 'release follow-up should come after editorial participation');
   assert.match(html, /class="editorial-section panel beta-status"/, 'beta status should retain stable layout and panel fallbacks');
   assert.match(html, /class="theme-mark beta-status__label"/, 'beta label should retain the stable theme-mark fallback');
+  assert.match(html, /styles\/home-polish\.v1\.css/, 'homepage should load the versioned polish layer');
+});
+
+test('homepage polish keeps supporting content restrained and wrap-safe', async () => {
+  const css = await read('src/styles/home-polish.v1.css');
+
+  assert.match(css, /\.home-hero__panel h1 \{[^}]*overflow-wrap:\s*normal;[^}]*word-break:\s*normal;/s, 'hero title should never break inside Entanglement');
+  assert.match(css, /\.beta-status a \{[^}]*white-space:\s*nowrap;/s, 'editorial beta CTA should stay together');
+  assert.match(css, /\.trilogy-question-grid article \{[^}]*justify-items:\s*center;[^}]*text-align:\s*center;/s, 'question cards should be consistently centered');
+  assert.match(css, /\.trilogy-question-grid p \{[^}]*font:\s*500 clamp\(1\.05rem,\s*1\.4vw,\s*1\.3rem\)\/1\.45 var\(--font-sans\);/s, 'question copy should remain supporting text rather than headline scale');
+});
+
+test('core reader pages share one primary navigation contract', async () => {
+  for (const pagePath of readerPages) {
+    const html = await read(pagePath);
+    const nav = html.match(/<nav class="primary-nav"[^>]*>([\s\S]*?)<\/nav>/);
+    assert.ok(nav, `${pagePath} must contain the primary navigation`);
+    const labels = [...nav[1].matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map(match => match[1].trim());
+    assert.deepEqual(labels, primaryNavLabels, `${pagePath} should use the shared primary nav order and labels`);
+    assert.doesNotMatch(nav[1], />Characters</, `${pagePath} should keep Characters out of primary navigation`);
+  }
+});
+
+test('books and world use the shared three-age hero treatment', async () => {
+  const css = await read('src/styles/trilogy-pages.v1.css');
+  assert.match(css, /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/, 'trilogy overview hero should present three equal visual ages');
+
+  for (const pagePath of ['src/books/index.html', 'src/world/index.html']) {
+    const html = await read(pagePath);
+    assert.match(html, /styles\/trilogy-pages\.v1\.css/, `${pagePath} should load the trilogy overview stylesheet`);
+    assert.match(html, /class="hero trilogy-page-hero"/, `${pagePath} should use the trilogy hero`);
+    assert.match(html, /age-of-embers-hero\.webp/, `${pagePath} should include prequel artwork`);
+    assert.match(html, /fatherless-original-hero\.webp/, `${pagePath} should include original artwork`);
+    assert.match(html, /neurion-hero\.webp/, `${pagePath} should include sequel artwork`);
+  }
 });
 
 test('mobile reader navigation stays compact and touch sized', async () => {
