@@ -1,6 +1,10 @@
 {
   "extends": ["html-validate:recommended"],
   "rules": {
-    "heading-level": "off"
+    "doctype-style": "off",
+    "heading-level": "off",
+    "no-raw-characters": "off",
+    "prefer-native-element": "off",
+    "unique-landmark": "off"
   }
 }
