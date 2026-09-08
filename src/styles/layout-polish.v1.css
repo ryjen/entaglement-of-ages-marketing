@@ -1,0 +1,6 @@
+.title-lock{display:inline-block;white-space:nowrap}
+.home-page .home-hero__panel h1{display:flex;flex-wrap:wrap;justify-content:center;gap:0 .18em;text-align:center}
+.home-copy-block{width:min(52rem,100%);margin-inline:auto;text-align:left}
+.home-copy-block .actions{justify-content:flex-start}
+.home-page .trilogy-question-grid article{justify-items:start;text-align:left}
+.home-page .trilogy-question-grid p{margin-inline:0}

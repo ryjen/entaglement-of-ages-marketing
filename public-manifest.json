@@ -13,7 +13,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/",
-      "checksum_sha256": "2942561a8b7f61efe96cec81aaeec494cd63ac4e8954a61d9204d4523a9eba7c",
+      "checksum_sha256": "4576becfd2146416f5f4e283861af4bd23113cbf0b7b20590923cb114c87465e",
       "replacement_status": "current"
     },
     {
@@ -133,7 +133,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/about/",
-      "checksum_sha256": "9fa1f549a4691f9f56e82f53184e8ae9c0c1fb66013cd959cbd3956c68ac4cd8",
+      "checksum_sha256": "6bdcaacaa2739ecdb7b0fad1ee79d4df4591634486d25f72f6a3202ccb8b3b43",
       "replacement_status": "current"
     },
     {
@@ -193,6 +193,21 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/styles/home-polish.v1.css",
+      "checksum_sha256": null,
+      "replacement_status": "current"
+    },
+    {
+      "id": "style-layout-polish-v1",
+      "path": "src/styles/layout-polish.v1.css",
+      "title": "Shared layout polish v1",
+      "summary": "Wrap-safe hero title tokens and homepage composition alignment refinements.",
+      "content_type": "site-asset",
+      "spoiler_tier": "placeholder",
+      "approval_state": "placeholder",
+      "rights_status": "repository-authored",
+      "provenance_class": "public-native",
+      "publication_date": null,
+      "canonical_url": "/styles/layout-polish.v1.css",
       "checksum_sha256": null,
       "replacement_status": "current"
     },
