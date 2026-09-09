@@ -1,0 +1,35 @@
+name: Normalize series navigation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/series-nav-migration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: true
+
+      - name: Normalize series navigation and checksums
+        run: node tools/migrate-series-nav.mjs
+
+      - name: Commit normalized navigation
+        run: |
+          if git diff --quiet; then
+            echo 'No migration changes required.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public-manifest.json tests/ux.test.mjs src
+          git commit -m 'refactor: rename trilogy navigation to series'
+          git push origin HEAD:main
