@@ -1,6 +1,13 @@
-# The Fatherless — Public Site
+# Entanglement of Ages — Public Site
 
-Public, reader-facing repository for *The Fatherless* trilogy.
+Public, reader-facing repository for the **Entanglement of Ages** book series.
+
+The repository is still named `ryjen/the-fatherless-marketing` during migration, but its publication scope now covers the full series:
+
+1. **Book I — The Fatherless: Age of Embers**
+2. **Book II — The Fatherless**
+3. **Book III — The Fatherless II: Neurion**
+4. **Book IV — The Age of Forms**
 
 This repository contains only material intentionally approved for public release. Canonical manuscripts, drafts, story foundations, editorial notes, private publishing records, and unreleased creative assets do not belong here.
 
@@ -10,10 +17,24 @@ This repository contains only material intentionally approved for public release
 - Private authoring and canon development remain outside this repository.
 - This repository must build and deploy without access to any private repository, private token, or cross-repository secret.
 - Public history must remain clean: do not mirror, subtree, or transplant private Git history.
+- The public repository remains an independently reviewed derivative of the private series workspace; there is no automatic private-to-public synchronization.
+
+## Stable book routes
+
+Reader-facing routes use title-based identities rather than relative `prequel` / `sequel` terminology:
+
+- `/books/age-of-embers/`
+- `/books/the-fatherless/`
+- `/books/neurion/`
+- `/books/age-of-forms/`
+
+Legacy public paths may remain temporarily for compatibility, but new links and metadata should use the stable routes.
 
 ## Design reference
 
-The landing-page composition target is preserved in [`docs/site-concept-reference.md`](docs/site-concept-reference.md). The shared visual contract is documented in [`docs/visual-system.md`](docs/visual-system.md). The original volume's public-safe **Institutional Eclipse** direction is documented in [`docs/original-visual-direction.md`](docs/original-visual-direction.md).
+The landing-page composition target is preserved in [`docs/site-concept-reference.md`](docs/site-concept-reference.md). The shared visual contract is documented in [`docs/visual-system.md`](docs/visual-system.md). Book II's public-safe **Institutional Eclipse** direction is documented in [`docs/original-visual-direction.md`](docs/original-visual-direction.md).
+
+Some filenames and CSS identifiers still contain `trilogy`, `prequel`, `original`, or `sequel`. During this migration these are implementation compatibility names, not current series terminology. Rename them only as a separate validated tooling/asset migration.
 
 ## Development
 
