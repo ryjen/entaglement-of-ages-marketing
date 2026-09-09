@@ -27,7 +27,7 @@ const trilogyOverviewPages = [
   'src/news/index.html',
   'src/press/index.html',
 ];
-const primaryNavLabels = ['Home', 'The trilogy', 'Books', 'World', 'About', 'News'];
+const primaryNavLabels = ['Home', 'The series', 'Books', 'World', 'About', 'News'];
 
 test('homepage keeps a focused story-first journey', async () => {
   const html = await read('src/index.html');
