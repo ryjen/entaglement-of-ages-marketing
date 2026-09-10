@@ -1,12 +1,12 @@
 # Story-driven public image direction
 
-This document defines the production image briefs for the public trilogy site. It is a **presentation specification**, not a canon document. The public repository must not reproduce private manuscript text, hidden symbolic mechanics, source paths, editorial notes, or scene-level spoilers.
+This document defines the production image briefs for the public *Entanglement of Ages* site. It is a **presentation specification**, not a canon document. The public repository must not reproduce private manuscript text, hidden symbolic mechanics, source paths, editorial notes, or scene-level spoilers.
 
 The visual goal is cinematic environmental storytelling: people exist inside systems, landscapes, crowds, and infrastructure rather than appearing as sacred icons or isolated promotional portraits.
 
 ## Shared cinematic grammar
 
-All four hero assets should feel like frames from one prestige dramatic trilogy photographed across radically different eras.
+The series overview and four book hero assets should feel like frames from one prestige dramatic series photographed across radically different eras.
 
 Shared rules:
 
@@ -16,20 +16,22 @@ Shared rules:
 - one clear source of visual tension per image;
 - physically plausible materials, atmosphere, scale, and lighting;
 - room for responsive cropping without removing the image's narrative subject;
-- no baked-in typography, logos, zodiac glyphs, religious symbols, or UI text;
+- no baked-in typography, logos, zodiac glyphs, religious symbols, scores, or UI text;
 - no halo-like backlighting, divine rays, cruciform framing, saint poses, Madonna-and-child composition, or Biblical-poster staging;
-- no generic fantasy, caveman-museum, cyberpunk, superhero, or devotional-cover language;
+- no generic fantasy, caveman-museum, cyberpunk, post-apocalypse, superhero, or devotional-cover language;
 - no image should be necessary to understand the page copy.
 
 Recommended source master: at least **2400 × 1350 (16:9)**. Preserve a safe central 70% for responsive crops. Generate 480/960/1440 AVIF and WebP derivatives through `scripts/generate-responsive-media.mjs` only after rights/provenance approval.
 
-## Homepage — the trilogy across three ages
+## Homepage — the series across four ages
 
-**Asset key:** `trilogy-overview-hero`
+**Compatibility asset key:** `trilogy-overview-hero`
+
+The existing asset key remains a compatibility name until a separately reviewed asset/manifest migration. New documentation and reader-facing copy should call the work a **series**, not a trilogy.
 
 ### Narrative job
 
-Introduce the trilogy as three changing forms of the same struggle over power and legitimacy without explaining the hidden architecture. It should feel like one visual sentence rather than a collage of three book covers.
+Introduce the series as changing forms of the same struggle over power, legitimacy, visibility, and human value without explaining hidden architecture. It should feel like one visual sentence rather than a collage of book covers.
 
 ### Composition
 
@@ -37,25 +39,27 @@ A wide, cinematic landscape whose visual language changes gradually from left to
 
 1. exposed ice, dark water, distant migration and a small carried flame;
 2. cold monumental civic stone, a public threshold and compressed human crowd geometry;
-3. partially dark modern/future civic infrastructure with many small independent signal/light sources.
+3. partially dark future civic infrastructure with many small independent signal/light sources;
+4. a later inhabited environment where advanced inherited systems remain visible but social attention, selection, and access produce a quieter comparative pressure.
 
-The transitions should be atmospheric and architectural, not separated by hard panels. No single person dominates the frame. Water, paths, thresholds, or horizon lines can provide continuity across eras.
+The transitions should be atmospheric, architectural, and material rather than separated by hard panels. No single person dominates the frame. Water, paths, thresholds, horizon lines, or changes in human scale can provide continuity across eras without exposing why those repetitions matter privately.
 
 ### Palette
 
-- left: polar blue, charcoal, glacial white, restrained sky-fire red;
-- centre: graphite, cold stone, blue-black, oxidized teal, muted wine tension;
-- right: indigo-black, deep network blue, restrained cyan/violet points.
+- Age of Embers: polar blue, charcoal, glacial white, restrained sky-fire red;
+- The Fatherless: graphite, cold stone, blue-black, oxidized teal, muted-wine tension;
+- Neurion: indigo-black, deep network blue, restrained cyan/violet points;
+- The Age of Forms: do not lock a final palette yet; preserve material continuity with advanced infrastructure while separating the era from both Neurion's signal language and The Fatherless' institutional stone treatment.
 
 ### Avoid
 
-Triptych poster layout, religious iconography, a central saviour silhouette, literal fish/ram/Aquarius glyphs, timeline labels, glowing portals, fantasy montage effects, or a single bright beam connecting the ages.
+Triptych/quadrant poster layout, religious iconography, a central saviour silhouette, literal fish/ram/Aquarius/Capricorn glyphs, timeline labels, glowing portals, fantasy montage effects, floating rank numbers, or a single bright beam connecting the ages.
 
 ### Public-safe alt intent
 
-`Three eras transition from an icy migration landscape, through monumental civic architecture, to a dark networked city.`
+`Four eras transition from an icy migration landscape, through monumental civic architecture and a networked city, into a later society living among inherited advanced systems.`
 
-## Prequel — *Age of Embers*
+## Book I — *Age of Embers*
 
 **Asset key:** `age-of-embers-hero`
 
@@ -81,7 +85,7 @@ Heroic caveman close-up, fur-bikini stereotype, shaman circle, dominant campfire
 
 `A small migrating group crosses a glacial valley beneath a low sun and red aurora, carrying a protected ember through the cold.`
 
-## Original — *The Fatherless*
+## Book II — *The Fatherless*
 
 **Asset key:** `fatherless-original-hero`
 
@@ -107,7 +111,7 @@ Jesus-like central male figure, halo/sunburst, mother-and-child devotional pose,
 
 `People gather beneath massive civic architecture while a small vulnerable group stands at the edge of the Republic's ordered public space.`
 
-## Sequel — *Neurion*
+## Book III — *Neurion*
 
 **Asset key:** `neurion-hero`
 
@@ -133,6 +137,57 @@ Glowing robot face, chrome humanoid hero, Matrix code rain, neon cyberpunk alley
 
 `Humans and synthetic persons move through a partially dark future civic district lit by many independent signals during an infrastructure disruption.`
 
+## Book IV — *The Age of Forms*
+
+**Planned asset key:** `age-of-forms-hero`
+
+This key is a production direction only until an approved source and manifest-backed public asset are created.
+
+### Narrative job
+
+Show a later civilization living among advanced inherited systems after a catastrophic break in institutional continuity. The image should communicate selection and comparative pressure without reducing the premise to a glowing social score or a simplistic beauty hierarchy.
+
+### Composition
+
+An inhabited public or semi-public environment where sophisticated surviving infrastructure is visibly integrated with later repair, adaptation, or social use. Several people occupy the same space, but attention and access are distributed unevenly: one route, venue, service, gathering, or opportunity visibly attracts people while another person or small group remains peripheral without an explicit guard forcing the separation.
+
+A reflective surface, framed representation, queue, invitation boundary, viewing platform, display surface without readable text, or difference in prominence may suggest that people are being evaluated through partial visible forms. The system should be inferred from what the environment produces rather than represented as floating numbers above bodies.
+
+The world should contain both continuity and discontinuity. It must not look like pristine Neurion one day later, nor like a complete technological reset centuries after an apocalypse.
+
+### Palette
+
+Do not lock the palette until Book IV receives a dedicated public visual-theme pass. For concept evaluation:
+
+- preserve believable materials and human skin tones;
+- distinguish surviving technology from Neurion's active signal-cyan identity;
+- avoid default rust/brown ruin grading;
+- allow contrast between polished inherited mechanisms and repaired or reinterpreted surroundings;
+- use light and prominence to imply attention without turning high visibility into moral beauty.
+
+### Avoid
+
+Floating attractiveness/reputation scores, smartphone-feed parody, influencer poster imagery, one universally beautiful hero, incel/gender-war visual shorthand, medieval villagers worshipping a machine, desert wasteland apocalypse, pristine utopia, generic Black Mirror clone, or a single villainous algorithm represented as a glowing eye.
+
+### Public-safe alt intent
+
+`People share a later public space where advanced inherited systems remain in use while attention and access are distributed unevenly.`
+
+## Cross-series continuity review
+
+Before approving new series art, compare it with `docs/series-visual-continuity.md`.
+
+Look for visible, public-safe continuity through:
+
+- human scale inside larger systems;
+- routes and thresholds;
+- environmental or civic geometry;
+- distributed versus concentrated attention;
+- representations that remain visibly partial;
+- materially plausible evolution rather than literal symbolic repetition.
+
+Do not copy private motif explanations into asset descriptions or alt text.
+
 ## Asset approval checklist
 
 Before any image enters deployable `src/`:
@@ -150,4 +205,4 @@ Before any image enters deployable `src/`:
 
 ## Review standard
 
-Reject an otherwise attractive asset if it makes the story look like a devotional retelling, a sepia historical epic, generic prehistoric fantasy, or generic cyberpunk. The image must communicate the **kind of power each era lives inside** before it communicates a genre label.
+Reject an otherwise attractive asset if it makes the story look like a devotional retelling, a sepia historical epic, generic prehistoric fantasy, generic cyberpunk, generic post-apocalypse, or a ranking-dystopia cliché. The image must communicate the **kind of power each era lives inside** before it communicates a genre label.
