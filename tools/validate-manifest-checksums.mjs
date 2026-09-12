@@ -8,7 +8,8 @@ const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "public-manifest.jso
 const refreshed = structuredClone(manifest);
 const refreshedById = new Map((refreshed.artifacts ?? []).map((artifact) => [artifact.id, artifact]));
 const errors = [];
-const emitRefreshed = process.argv.includes("--emit-refreshed-base64");
+const writeArg = process.argv.find((arg) => arg.startsWith("--write-refreshed="));
+const writeRefreshed = writeArg ? writeArg.slice("--write-refreshed=".length) : null;
 
 function sha256(buffer) {
   return crypto.createHash("sha256").update(buffer).digest("hex");
@@ -31,9 +32,11 @@ if (errors.length) {
   for (const error of errors) {
     console.error(`  - ${error.id} ${error.path} expected=${error.expected} actual=${error.actual}`);
   }
-  if (emitRefreshed) {
-    const encoded = Buffer.from(`${JSON.stringify(refreshed)}\n`, "utf8").toString("base64");
-    console.error(`REFRESHED_MANIFEST_BASE64=${encoded}`);
+  if (writeRefreshed) {
+    const target = path.resolve(ROOT, writeRefreshed);
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, `${JSON.stringify(refreshed)}\n`, "utf8");
+    console.error(`Refreshed manifest written to ${path.relative(ROOT, target).split(path.sep).join("/")}`);
   }
   process.exitCode = 1;
 } else {
