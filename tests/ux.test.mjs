@@ -38,7 +38,7 @@ test('homepage keeps a focused story-first journey', async () => {
   const hero = html.slice(heroStart, heroEnd);
   const heroActions = [...hero.matchAll(/<a class="button(?: button--quiet)?"[^>]*>([^<]+)<\/a>/g)]
     .map(match => match[1].trim());
-  assert.deepEqual(heroActions, ['Explore the trilogy', 'Help shape the books']);
+  assert.deepEqual(heroActions, ['Explore the series', 'Help shape the books']);
 
   const betaStatus = html.search(/class="[^"]*\bbeta-status\b[^"]*"/);
   const trilogy = html.indexOf('id="trilogy"');
