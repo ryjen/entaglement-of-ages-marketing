@@ -5,7 +5,7 @@
       "id": "site-placeholder-home",
       "path": "src/index.html",
       "title": "Entanglement of Ages",
-      "summary": "Public Entanglement of Ages overview spanning the prequel, original, and sequel.",
+      "summary": "Public Entanglement of Ages overview spanning four ages and recurring pressures around survival, authority, personhood, and measurement.",
       "content_type": "page",
       "spoiler_tier": "premise",
       "approval_state": "approved",
@@ -13,7 +13,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/",
-      "checksum_sha256": "d8c75e19689a94990c82b8b95ee6ec04c16333399bfab03d1f479b8d375427dd",
+      "checksum_sha256": "8b0d18827d46854065259a2ba888ae0105639f185bf55784f0194e2b12663f29",
       "replacement_status": "current"
     },
     {
@@ -28,7 +28,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/",
-      "checksum_sha256": "3c5010f783fa64b85dbdf5a727d0eb0406b9ed1f2fef4c0bccaa4e2db0d68e08",
+      "checksum_sha256": "3f6d15d90a105bc49f154bdb51be39c0d0a0f1a8ee577795cf1b9951e9153238",
       "replacement_status": "current"
     },
     {
@@ -539,7 +539,7 @@
       "id": "site-book-age-of-forms",
       "path": "src/books/age-of-forms/index.html",
       "title": "The Age of Forms",
-      "summary": "Public premise overview of Book IV: inherited technology, ranking, desirability, comparative value, and the realization that nobody wins.",
+      "summary": "Public premise overview of Book IV: material abundance, scarce meaning and attention, purpose-bound measurement, comparative value, and the realization that nobody wins.",
       "content_type": "page",
       "spoiler_tier": "premise",
       "approval_state": "approved",
@@ -547,7 +547,7 @@
       "provenance_class": "public-native",
       "publication_date": null,
       "canonical_url": "/books/age-of-forms/",
-      "checksum_sha256": "bee8f89917ae462ccfb52b8b2c8b5fee7790d2883105da971074c80b5c9fc596",
+      "checksum_sha256": "5cc7bd846c83ffbc0994d0b6e04c87fb3d056f02af471e9b12902f3b1c146f70",
       "replacement_status": "current"
     }
   ]
