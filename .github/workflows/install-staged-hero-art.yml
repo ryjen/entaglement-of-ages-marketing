@@ -22,11 +22,27 @@ jobs:
         run: |
           set -euo pipefail
           test -f .artwork-staging/READY
-
           mkdir -p src/media/heroes
-          cat .artwork-staging/age-of-embers-* | base64 --decode > src/media/heroes/age-of-embers-hero.webp
-          cat .artwork-staging/fatherless-original-* | base64 --decode > src/media/heroes/fatherless-original-hero.webp
-          cat .artwork-staging/neurion-* | base64 --decode > src/media/heroes/neurion-hero.webp
+
+          {
+            git show 972700819e2361906fc3a240f2ab18d421a10bba:.artwork-staging/age-of-embers-000.b64
+            git show 3299ecf5b65b74a09d746d4eec4d0590921a2132:.artwork-staging/age-of-embers-001.b64
+            git show 7c8112b4f8fdd57f2b639371d8817f82c5e1a4ce:.artwork-staging/age-of-embers-002.b64
+            git show 5c2b6e69658e53368ff214e8cf731d58fbcd4411:.artwork-staging/age-of-embers-003.b64
+          } | base64 --decode > src/media/heroes/age-of-embers-hero.webp
+
+          {
+            git show 48bb1aed591ecf73646fa6c055410e9a4acb5194:.artwork-staging/fatherless-original-000.b64
+            git show 950e0a75a6ab64feef8c65e7f46e2f2c68d8dcfb:.artwork-staging/fatherless-original-001.b64
+            git show 620287b69c5a479124210bb34b1f29ceb826a9f1:.artwork-staging/fatherless-original-002.b64
+          } | base64 --decode > src/media/heroes/fatherless-original-hero.webp
+
+          {
+            git show bf52d989ee5042bb2b68ef9facda70399ec59644:.artwork-staging/neurion-000.b64
+            git show 331b4af04313d562cbeefa8bc216914064db9903:.artwork-staging/neurion-001.b64
+            git show 3f09c7242c984a0d0e91ff6ced7c9f3795781c88:.artwork-staging/neurion-002.b64
+          } | base64 --decode > src/media/heroes/neurion-hero.webp
+
           cat .artwork-staging/age-of-forms-* | base64 --decode > src/media/heroes/age-of-forms-hero.webp
 
           python - <<'PY'
