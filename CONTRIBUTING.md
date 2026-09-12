@@ -2,9 +2,9 @@
 
 This repository is a public publication surface. Do not use it for drafting, canon development, editorial notes, research, private publishing records, or unreleased creative material.
 
-## Editorial beta participation
+## Editorial participation
 
-All three books in *Entanglement of Ages* are currently editorial-beta manuscripts. Editors, beta readers, subject-matter readers, and other contributors are welcome to register interest through the public editorial-interest issue form.
+Books I–III in *Entanglement of Ages* are currently editorial-beta manuscripts. Book IV, *The Age of Forms*, is in representative-prose development and is not yet a beta manuscript. Editors, beta readers, subject-matter readers, and other contributors are welcome to register interest through the public editorial-interest issue form.
 
 The public issue is intake only. Use it to describe the kind of contribution you are interested in, relevant background, and the scope you would like to review. Do **not** post manuscript text, spoilers, unreleased canon, raw editorial feedback, private correspondence, contracts, payment details, email addresses, phone numbers, or other unnecessary personal information.
 
