@@ -1,0 +1,1 @@
+Binary hero assets are stored in this staging change as Git blobs; any temporary `.b64` transport file is not a production asset and should be removed before merge.
