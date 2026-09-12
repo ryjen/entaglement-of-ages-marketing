@@ -5,7 +5,7 @@ on:
     branches:
       - art/update-website-heroes-2026-09
     paths:
-      - src/media/heroes/**
+      - .tmp-art/READY
 
 permissions:
   contents: write
@@ -18,16 +18,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Wire four-book website artwork
+      - name: Reconstruct and wire website artwork
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
+          import base64
           import hashlib
           import json
 
           root = Path('.')
+          temp = root / '.tmp-art'
+          hero_dir = root / 'src' / 'media' / 'heroes'
           assets = {
               'age-of-embers-hero.webp': ('hero-age-of-embers', 'Age of Embers hero', 'Project-generated cinematic website artwork of glacial migration beneath a red eclipse over a frozen sea.', '1bd5f71ab5565ccf3af05ee80fb1fcb7d2c9d4d13ba882cd86436b2f557a2ea9'),
               'fatherless-original-hero.webp': ('hero-original', 'The Fatherless original hero', 'Project-generated cinematic website artwork of the Aurelian Republic as an immense civic river city at dusk.', '5b5df67007cf1fe9eb8e76770a013e2d0fcd961a9992a6de8f41cf6bcdf0c48c'),
@@ -35,30 +38,28 @@ jobs:
               'age-of-forms-hero.webp': ('hero-age-of-forms', 'The Age of Forms hero', 'Project-generated cinematic website artwork of a materially abundant later-age city shaped by inherited advanced systems and social comparison.', '9b12f52fcd25ba7247987fd79f841b47efaa82f14d0a8d91cdad6e302958b7bb'),
           }
 
-          def sha256(path: Path) -> str:
+          def sha256(path):
               return hashlib.sha256(path.read_bytes()).hexdigest()
 
-          hero_dir = root / 'src' / 'media' / 'heroes'
           for filename, (_, _, _, expected) in assets.items():
-              path = hero_dir / filename
-              if not path.is_file():
-                  raise SystemExit(f'missing hero asset: {path}')
-              data = path.read_bytes()
+              parts = sorted(temp.glob(f'{filename}.b64.*'))
+              if not parts:
+                  raise SystemExit(f'missing chunks: {filename}')
+              encoded = ''.join(part.read_text(encoding='ascii') for part in parts)
+              data = base64.b64decode(encoded, validate=True)
               if len(data) < 12 or data[:4] != b'RIFF' or data[8:12] != b'WEBP':
-                  raise SystemExit(f'invalid WebP signature: {path}')
+                  raise SystemExit(f'invalid WebP signature: {filename}')
               if int.from_bytes(data[4:8], 'little') + 8 != len(data):
-                  raise SystemExit(f'malformed WebP: {path}')
-              actual = sha256(path)
+                  raise SystemExit(f'malformed reconstructed WebP: {filename}')
+              actual = hashlib.sha256(data).hexdigest()
               if actual != expected:
-                  raise SystemExit(f'unexpected hero checksum for {filename}: {actual}')
+                  raise SystemExit(f'checksum mismatch after reconstruction: {filename} {actual}')
+              (hero_dir / filename).write_bytes(data)
 
           alt_replacements = {
-              'A line of people crosses a dark glacial plain beneath jagged mountains and a red streak in a stormy sky.':
-                  'A small migrating group crosses a frozen coastal wilderness beneath jagged mountains and a red eclipse reflected across dark water.',
-              'Masked elites recline with wine on a high terrace while attendants serve them above a crowded civic avenue lined with guards and public punishment structures.':
-                  'An immense river city of stone temples, bridges, civic crowds, banners, and torchlight gathers beneath a darkening sky.',
-              'A crowd moves through a broad civic plaza beneath a dark blue skyline of scattered lights and storm clouds.':
-                  'A vast blue-lit future city spans cliffs and waterfalls beneath a planetary sky, with people overlooking its distributed towers and transit.',
+              'A line of people crosses a dark glacial plain beneath jagged mountains and a red streak in a stormy sky.': 'A small migrating group crosses a frozen coastal wilderness beneath jagged mountains and a red eclipse reflected across dark water.',
+              'Masked elites recline with wine on a high terrace while attendants serve them above a crowded civic avenue lined with guards and public punishment structures.': 'An immense river city of stone temples, bridges, civic crowds, banners, and torchlight gathers beneath a darkening sky.',
+              'A crowd moves through a broad civic plaza beneath a dark blue skyline of scattered lights and storm clouds.': 'A vast blue-lit future city spans cliffs and waterfalls beneath a planetary sky, with people overlooking its distributed towers and transit.',
           }
           for html in (root / 'src').rglob('*.html'):
               text = html.read_text(encoding='utf-8')
@@ -68,35 +69,31 @@ jobs:
 
           home = root / 'src' / 'index.html'
           text = home.read_text(encoding='utf-8')
-          marker = '      <article class="era-card" data-era="forms">\n        <div class="era-card__copy">'
-          replacement = (
-              '      <article class="era-card" data-era="forms">\n'
-              '        <figure class="era-card__media"><img src="media/heroes/age-of-forms-hero.webp" width="640" height="360" alt="A bright terraced future city of water, gardens, elevated transit, and civic crowds extends beneath a vast orbital ring." loading="lazy" decoding="async"></figure>\n'
-              '        <div class="era-card__copy">'
-          )
-          if marker not in text:
+          old = '      <article class="era-card" data-era="forms">\n        <div class="era-card__copy">'
+          new = '      <article class="era-card" data-era="forms">\n        <figure class="era-card__media"><img src="media/heroes/age-of-forms-hero.webp" width="640" height="360" alt="A bright terraced future city of water, gardens, elevated transit, and civic crowds extends beneath a vast orbital ring." loading="lazy" decoding="async"></figure>\n        <div class="era-card__copy">'
+          if old not in text:
               raise SystemExit('Book IV homepage card marker not found')
-          home.write_text(text.replace(marker, replacement, 1), encoding='utf-8')
+          home.write_text(text.replace(old, new, 1), encoding='utf-8')
 
           books = root / 'src' / 'books' / 'index.html'
           text = books.read_text(encoding='utf-8')
-          marker = '        <img src="../media/heroes/neurion-hero.webp" width="1200" height="675" alt="" decoding="async">'
-          replacement = marker + '\n        <img src="../media/heroes/age-of-forms-hero.webp" width="640" height="360" alt="" decoding="async">'
-          if marker not in text:
+          old = '        <img src="../media/heroes/neurion-hero.webp" width="1200" height="675" alt="" decoding="async">'
+          if old not in text:
               raise SystemExit('books overview hero marker not found')
-          books.write_text(text.replace(marker, replacement, 1), encoding='utf-8')
+          text = text.replace(old, old + '\n        <img src="../media/heroes/age-of-forms-hero.webp" width="640" height="360" alt="" decoding="async">', 1)
+          books.write_text(text, encoding='utf-8')
 
           css = root / 'src' / 'styles' / 'trilogy-pages.v1.css'
           text = css.read_text(encoding='utf-8')
-          marker = 'grid-template-columns:repeat(3,1fr)'
-          if marker not in text:
+          old = 'grid-template-columns:repeat(3,1fr)'
+          if old not in text:
               raise SystemExit('books overview grid marker not found')
-          css.write_text(text.replace(marker, 'grid-template-columns:repeat(4,1fr)', 1), encoding='utf-8')
+          css.write_text(text.replace(old, 'grid-template-columns:repeat(4,1fr)', 1), encoding='utf-8')
 
           forms = root / 'src' / 'books' / 'age-of-forms' / 'index.html'
           text = forms.read_text(encoding='utf-8')
-          og_url = '  <meta property="og:url" content="https://fatherless.ryanjennin.gs/books/age-of-forms/">'
-          text = text.replace(og_url, og_url + '\n  <meta property="og:image" content="https://fatherless.ryanjennin.gs/media/heroes/age-of-forms-hero.webp">', 1)
+          og = '  <meta property="og:url" content="https://fatherless.ryanjennin.gs/books/age-of-forms/">'
+          text = text.replace(og, og + '\n  <meta property="og:image" content="https://fatherless.ryanjennin.gs/media/heroes/age-of-forms-hero.webp">', 1)
           text = text.replace('<meta name="twitter:card" content="summary">', '<meta name="twitter:card" content="summary_large_image">', 1)
           twitter_desc = '  <meta name="twitter:description" content="Humanity solves much of material scarcity. It does not solve the need to matter.">'
           text = text.replace(twitter_desc, twitter_desc + '\n  <meta name="twitter:image" content="https://fatherless.ryanjennin.gs/media/heroes/age-of-forms-hero.webp">', 1)
@@ -104,15 +101,11 @@ jobs:
           text = text.replace(json_url, json_url + '\n    "image": "https://fatherless.ryanjennin.gs/media/heroes/age-of-forms-hero.webp",', 1)
           trilogy_css = '  <link rel="stylesheet" href="../../styles/trilogy-pages.v1.css">'
           text = text.replace(trilogy_css, trilogy_css + '\n  <link rel="stylesheet" href="../../styles/hero-media.v1.css">', 1)
-          hero_marker = '    <section class="hero trilogy-page-hero" aria-labelledby="page-title">\n      <div class="hero__panel">'
-          hero_replacement = (
-              '    <section class="hero hero--media" aria-labelledby="page-title">\n'
-              '      <figure class="hero__media"><img src="../../media/heroes/age-of-forms-hero.webp" width="640" height="360" alt="A bright terraced future city of water, gardens, elevated transit, and civic crowds extends beneath a vast orbital ring." fetchpriority="high" decoding="async"></figure>\n'
-              '      <div class="hero__panel">'
-          )
-          if hero_marker not in text:
+          old = '    <section class="hero trilogy-page-hero" aria-labelledby="page-title">\n      <div class="hero__panel">'
+          new = '    <section class="hero hero--media" aria-labelledby="page-title">\n      <figure class="hero__media"><img src="../../media/heroes/age-of-forms-hero.webp" width="640" height="360" alt="A bright terraced future city of water, gardens, elevated transit, and civic crowds extends beneath a vast orbital ring." fetchpriority="high" decoding="async"></figure>\n      <div class="hero__panel">'
+          if old not in text:
               raise SystemExit('Book IV page hero marker not found')
-          forms.write_text(text.replace(hero_marker, hero_replacement, 1), encoding='utf-8')
+          forms.write_text(text.replace(old, new, 1), encoding='utf-8')
 
           manifest_path = root / 'public-manifest.json'
           manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
@@ -156,13 +149,10 @@ jobs:
           manifest_path.write_text(json.dumps(manifest, separators=(',', ':')), encoding='utf-8')
           PY
 
-      - name: Remove one-shot helper before validation
-        run: rm .github/workflows/materialize-website-art.yml
-
       - name: Install validation dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Validate public media and source contracts
+      - name: Validate public contracts
         shell: bash
         run: |
           set -euo pipefail
@@ -177,6 +167,6 @@ jobs:
           set -euo pipefail
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add -A
+          git add public-manifest.json src/
           git commit -m 'art: refresh website artwork for four-book cycle'
           git push origin HEAD
