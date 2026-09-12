@@ -1,1 +1,0 @@
-Binary upload will use Git object storage so the staged files remain proper WebP assets.

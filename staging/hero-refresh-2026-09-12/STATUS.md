@@ -1,1 +1,0 @@
-Upload retry in progress. Final review must contain actual `.webp` files, not transport-only payloads.
