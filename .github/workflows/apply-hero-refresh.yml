@@ -115,7 +115,7 @@ jobs:
 
           ux = 'tests/ux.test.mjs'
           replace(ux, "test('series-level overview pages use the shared three-age hero treatment'", "test('series-level overview pages use the shared four-age hero treatment'")
-          replace(ux, r'/grid-template-columns:repeat\\(3,1fr\\)/', r'/grid-template-columns:repeat\\(4,1fr\\)/')
+          replace(ux, r'/grid-template-columns:repeat\(3,1fr\)/', r'/grid-template-columns:repeat\(4,1fr\)/')
           replace(ux, "'trilogy overview hero should present three equal visual ages'", "'series overview hero should present four equal visual ages'")
           replace(
               ux,
