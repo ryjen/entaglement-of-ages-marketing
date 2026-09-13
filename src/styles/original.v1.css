@@ -64,3 +64,20 @@ body[data-theme='original'] .theme-mark::before {
   border-radius: 0.12rem;
   transform: rotate(45deg);
 }
+
+/* Content-address visible hero replacements so browser/CDN caches cannot pin stale artwork. */
+img[src$='age-of-embers-hero.webp'] {
+  content: url('../media/heroes/age-of-embers-hero.webp?v=7ff05556d438');
+}
+
+img[src$='fatherless-original-hero.webp'] {
+  content: url('../media/heroes/fatherless-original-hero.webp?v=bebdd6548794');
+}
+
+img[src$='neurion-hero.webp'] {
+  content: url('../media/heroes/neurion-hero.webp?v=3c3e392c977c');
+}
+
+img[src$='age-of-forms-hero.webp'] {
+  content: url('../media/heroes/age-of-forms-hero.webp?v=ec3f26f03769');
+}
