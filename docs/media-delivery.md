@@ -5,11 +5,14 @@ The public site is deployed behind GitHub Pages and may be proxied by Cloudflare
 ## Contract
 
 - `public-manifest.json` remains the authority for approved media paths and SHA-256 checksums.
-- `mise run build` copies manifest-backed source into `dist/`, emits a hero copy named `<stem>.<first-12-hex-of-sha256>.webp`, and rewrites every built hero reference to that immutable filename.
+- `mise run build` first creates an exact manifest-backed `dist/` artifact.
+- `mise run validate`, HTML validation, and CSS validation run against that exact artifact.
+- The final `package` stage then emits a hero copy named `<stem>.<first-12-hex-of-sha256>.webp` and rewrites every built hero reference to that immutable filename.
 - The rewrite applies to visible `<img>` references as well as Open Graph, Twitter, and JSON-LD URLs.
 - Built `<img>` width and height attributes are rewritten to the raster's actual intrinsic dimensions.
-- `mise run validate` fails if a built hero reference is bare, carries a stale fingerprint, points at missing/different bytes, or declares dimensions that disagree with the source raster.
-- Source HTML may retain stable logical paths; only `dist/` is deployment authority.
+- Final packaging fails if a hero reference is bare, carries a stale fingerprint, points at missing/different bytes, or declares dimensions that disagree with the source raster.
+- Chromium smoke runs against the packaged artifact that is subsequently uploaded to Pages.
+- Source HTML may retain stable logical paths; only packaged `dist/` is deployment authority.
 
 A media-byte change therefore produces a different browser-visible filename automatically. This does not depend on CSS freshness, query-string cache-key behavior, or a manual purge for the changed image URL.
 
