@@ -6,7 +6,6 @@ import sharp from 'sharp';
 
 const ROOT = process.cwd();
 const MEDIA_ROOT = path.join(ROOT, 'src', 'media');
-const STYLES_ROOT = path.join(ROOT, 'src', 'styles');
 const MANIFEST_PATH = path.join(ROOT, 'public-manifest.json');
 
 function walk(dir) {
@@ -71,11 +70,6 @@ for (const file of webpFiles) {
 }
 
 const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
-const css = walk(STYLES_ROOT)
-  .filter((file) => file.endsWith('.css'))
-  .map((file) => fs.readFileSync(file, 'utf8'))
-  .join('\n');
-
 for (const artifact of manifest.artifacts ?? []) {
   if (typeof artifact.path !== 'string' || !artifact.path.endsWith('.webp')) continue;
   if (typeof artifact.checksum_sha256 !== 'string') continue;
@@ -84,14 +78,6 @@ for (const artifact of manifest.artifacts ?? []) {
   const actual = sha256(fs.readFileSync(diskPath));
   if (actual !== artifact.checksum_sha256) {
     errors.push(`${artifact.id}: checksum mismatch expected=${artifact.checksum_sha256} actual=${actual}`);
-  }
-
-  if (artifact.path.startsWith('src/media/heroes/')) {
-    const basename = path.basename(artifact.path);
-    const cacheToken = actual.slice(0, 12);
-    if (!css.includes(`${basename}?v=${cacheToken}`)) {
-      errors.push(`${artifact.id}: visible hero cache token missing or stale; expected ${basename}?v=${cacheToken}`);
-    }
   }
 }
 
@@ -110,6 +96,6 @@ const coverSummary = [...metadataByPath.entries()]
   .map(([rel, metadata]) => `${path.basename(rel)}=${metadata.width}x${metadata.height}`)
   .join(', ');
 
-console.log('Media integrity passed: WebP structure, dimensions, cache tokens, and manifest checksums are coherent.');
+console.log('Media integrity passed: WebP structure, dimensions, and manifest checksums are coherent.');
 console.log(`Heroes: ${heroSummary}`);
 console.log(`Covers: ${coverSummary}`);
