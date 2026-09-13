@@ -27,13 +27,23 @@ for (const artifact of manifest.artifacts ?? []) {
   if (typeof artifact.path !== 'string' || !artifact.path.startsWith('src/media/heroes/') || !artifact.path.endsWith('.webp')) continue;
   if (typeof artifact.checksum_sha256 !== 'string' || !/^[0-9a-f]{64}$/.test(artifact.checksum_sha256)) continue;
   const basename = path.basename(artifact.path);
+  const stem = basename.slice(0, -'.webp'.length);
+  const token = artifact.checksum_sha256.slice(0, 12);
+  const fingerprinted = `${stem}.${token}.webp`;
   const metadata = await sharp(path.join(ROOT, artifact.path)).metadata();
   if (!metadata.width || !metadata.height) throw new Error(`missing dimensions for ${artifact.path}`);
   heroes.set(basename, {
-    token: artifact.checksum_sha256.slice(0, 12),
+    stem,
+    token,
+    fingerprinted,
     width: metadata.width,
     height: metadata.height,
   });
+
+  const sourceBuiltPath = path.join(DIST, 'media', 'heroes', basename);
+  const fingerprintedPath = path.join(DIST, 'media', 'heroes', fingerprinted);
+  if (!fs.existsSync(sourceBuiltPath)) throw new Error(`built hero is missing: ${sourceBuiltPath}`);
+  fs.copyFileSync(sourceBuiltPath, fingerprintedPath);
 }
 
 if (!heroes.size) throw new Error('no manifest-backed hero media found');
@@ -45,16 +55,16 @@ for (const file of walk(DIST).filter((file) => file.endsWith('.html'))) {
   const before = html;
 
   for (const [basename, hero] of heroes) {
-    const pattern = new RegExp(`${escapeRegex(basename)}(?:\\?v=[0-9a-f]{12})?`, 'g');
+    const pattern = new RegExp(`${escapeRegex(hero.stem)}(?:\\.[0-9a-f]{12})?\\.webp(?:\\?v=[0-9a-f]{12})?`, 'g');
     const matches = html.match(pattern)?.length ?? 0;
     if (matches) {
       rewrittenReferences += matches;
-      html = html.replace(pattern, `${basename}?v=${hero.token}`);
+      html = html.replace(pattern, hero.fingerprinted);
     }
   }
 
   html = html.replace(/<img\b[^>]*>/gi, (tag) => {
-    const heroEntry = [...heroes.entries()].find(([basename]) => tag.includes(`${basename}?v=`));
+    const heroEntry = [...heroes.entries()].find(([, hero]) => tag.includes(hero.fingerprinted));
     if (!heroEntry) return tag;
     const [, hero] = heroEntry;
     let next = tag;
@@ -71,5 +81,5 @@ for (const file of walk(DIST).filter((file) => file.endsWith('.html'))) {
   }
 }
 
-console.log(`Versioned ${rewrittenReferences} hero reference(s) across ${changedFiles} built HTML file(s).`);
-for (const [basename, hero] of heroes) console.log(`  ${basename}?v=${hero.token} (${hero.width}x${hero.height})`);
+console.log(`Fingerprinted ${rewrittenReferences} hero reference(s) across ${changedFiles} built HTML file(s).`);
+for (const [, hero] of heroes) console.log(`  ${hero.fingerprinted} (${hero.width}x${hero.height})`);
