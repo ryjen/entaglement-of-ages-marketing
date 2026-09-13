@@ -1,0 +1,223 @@
+name: Apply four-book hero refresh
+
+on:
+  push:
+    branches:
+      - art/four-book-hero-refresh-2026-09-12
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Integrate four-book heroes
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import hashlib
+          import json
+
+          def replace_once(path, old, new, required=True):
+              p = Path(path)
+              text = p.read_text()
+              if new in text:
+                  return
+              if old not in text:
+                  if required:
+                      raise SystemExit(f"expected text not found in {path}: {old[:120]!r}")
+                  return
+              p.write_text(text.replace(old, new, 1))
+
+          # Keep existing public pages aligned with the refreshed compositions.
+          alt_replacements = {
+              'A line of people crosses a dark glacial plain beneath jagged mountains and a red streak in a stormy sky.':
+                  'A small group crosses an icy coastal landscape beneath jagged mountains and a red eclipsed sun.',
+              'Masked elites recline with wine on a high terrace while attendants serve them above a crowded civic avenue lined with guards and public punishment structures.':
+                  'A torchlit procession and crowds move through a monumental Roman-inspired river city at dusk beneath civic banners and temples.',
+              'A crowd moves through a broad civic plaza beneath a dark blue skyline of scattered lights and storm clouds.':
+                  'People overlook a vast future city of dark towers, elevated routes, waterfalls, and blue-lit infrastructure beneath a planetary sky.',
+          }
+          for path in Path('src').rglob('*.html'):
+              text = path.read_text()
+              for old, new in alt_replacements.items():
+                  text = text.replace(old, new)
+              path.write_text(text)
+
+          forms = 'src/books/age-of-forms/index.html'
+          replace_once(
+              forms,
+              '  <meta property="og:url" content="https://eoa.ryanjennin.gs/books/age-of-forms/">\n  <meta name="twitter:card" content="summary">',
+              '  <meta property="og:url" content="https://eoa.ryanjennin.gs/books/age-of-forms/">\n  <meta property="og:image" content="https://eoa.ryanjennin.gs/media/heroes/age-of-forms-hero.webp">\n  <meta name="twitter:card" content="summary_large_image">',
+          )
+          replace_once(
+              forms,
+              '  <meta name="twitter:description" content="Humanity solves much of material scarcity. It does not solve the need to matter.">',
+              '  <meta name="twitter:description" content="Humanity solves much of material scarcity. It does not solve the need to matter.">\n  <meta name="twitter:image" content="https://eoa.ryanjennin.gs/media/heroes/age-of-forms-hero.webp">',
+          )
+          replace_once(
+              forms,
+              '    "url": "https://eoa.ryanjennin.gs/books/age-of-forms/",\n    "isPartOf":',
+              '    "url": "https://eoa.ryanjennin.gs/books/age-of-forms/",\n    "image": "https://eoa.ryanjennin.gs/media/heroes/age-of-forms-hero.webp",\n    "isPartOf":',
+          )
+          replace_once(
+              forms,
+              '  <link rel="stylesheet" href="../../styles/trilogy-pages.v1.css">',
+              '  <link rel="stylesheet" href="../../styles/trilogy-pages.v1.css">\n  <link rel="stylesheet" href="../../styles/hero-media.v1.css">',
+          )
+          replace_once(
+              forms,
+              '    <section class="hero trilogy-page-hero" aria-labelledby="page-title">\n      <div class="hero__panel">',
+              '    <section class="hero hero--media" aria-labelledby="page-title">\n      <figure class="hero__media"><img src="../../media/heroes/age-of-forms-hero.webp" width="512" height="288" alt="People overlook a luminous future city of terraces, waterfalls, bridges, and monumental towers beneath a pale planetary sky." fetchpriority="high" decoding="async"></figure>\n      <div class="hero__panel">',
+          )
+
+          home = 'src/index.html'
+          replace_once(
+              home,
+              '      <article class="era-card" data-era="forms">\n        <div class="era-card__copy">',
+              '      <article class="era-card" data-era="forms">\n        <figure class="era-card__media"><img src="media/heroes/age-of-forms-hero.webp" width="512" height="288" alt="People overlook a luminous future city of terraces, waterfalls, bridges, and monumental towers beneath a pale planetary sky." loading="lazy" decoding="async"></figure>\n        <div class="era-card__copy">',
+          )
+
+          overview_pages = [
+              'src/books/index.html',
+              'src/world/index.html',
+              'src/about/index.html',
+              'src/news/index.html',
+              'src/press/index.html',
+          ]
+          for file in overview_pages:
+              p = Path(file)
+              text = p.read_text()
+              if 'age-of-forms-hero.webp' in text:
+                  continue
+              marker = '        <img src="../media/heroes/neurion-hero.webp" width="1200" height="675" alt="" decoding="async">'
+              if marker not in text:
+                  raise SystemExit(f'overview hero marker missing in {file}')
+              addition = marker + '\n        <img src="../media/heroes/age-of-forms-hero.webp" width="512" height="288" alt="" decoding="async">'
+              p.write_text(text.replace(marker, addition, 1))
+
+          replace_once('src/styles/trilogy-pages.v1.css', 'grid-template-columns:repeat(3,1fr)', 'grid-template-columns:repeat(4,1fr)')
+
+          ux = Path('tests/ux.test.mjs')
+          text = ux.read_text()
+          text = text.replace("test('series-level overview pages use the shared three-age hero treatment'", "test('series-level overview pages use the shared four-age hero treatment'")
+          text = text.replace('repeat\\(3,1fr\\)', 'repeat\\(4,1fr\\)')
+          text = text.replace("'trilogy overview hero should present three equal visual ages'", "'series overview hero should present four equal visual ages'")
+          needle = "    assert.match(html, /neurion-hero\\.webp/, `${pagePath} should include sequel artwork`);"
+          if 'should include Book IV artwork' not in text:
+              if needle not in text:
+                  raise SystemExit('UX hero assertion marker missing')
+              text = text.replace(needle, needle + "\n    assert.match(html, /age-of-forms-hero\\.webp/, `${pagePath} should include Book IV artwork`);", 1)
+          if "'src/books/age-of-forms/index.html'" not in text:
+              text = text.replace("  'src/books/sequel/index.html',\n", "  'src/books/sequel/index.html',\n  'src/books/age-of-forms/index.html',\n", 1)
+          ux.write_text(text)
+
+          site = Path('tools/site.mjs')
+          text = site.read_text()
+          pages_marker = "    'src/books/sequel/index.html',\n  ];"
+          if "    'src/books/age-of-forms/index.html'," not in text:
+              if pages_marker not in text:
+                  raise SystemExit('site page list marker missing')
+              text = text.replace(pages_marker, "    'src/books/sequel/index.html',\n    'src/books/age-of-forms/index.html',\n  ];", 1)
+          heroes_old = "['age-of-embers-hero.webp', 'fatherless-original-hero.webp', 'neurion-hero.webp']"
+          heroes_new = "['age-of-embers-hero.webp', 'fatherless-original-hero.webp', 'neurion-hero.webp', 'age-of-forms-hero.webp']"
+          if heroes_new not in text:
+              if heroes_old not in text:
+                  raise SystemExit('site hero list marker missing')
+              text = text.replace(heroes_old, heroes_new, 1)
+          site.write_text(text)
+
+          prov = Path('docs/image-provenance.md')
+          text = prov.read_text()
+          if '`age-of-forms-hero.webp`' not in text:
+              marker = '| `neurion-hero.webp` | generated | Project-generated original artwork approved for this public release | stripped | sequel hero and trilogy card |'
+              if marker not in text:
+                  raise SystemExit('image provenance table marker missing')
+              text = text.replace(marker, marker + '\n| `age-of-forms-hero.webp` | generated | Project-generated original artwork approved for this public release | stripped | Book IV hero and series card |', 1)
+          text = text.replace('The approved public assets are compact 1200 x 675 WebP files. They preserve the cinematic environmental compositions while keeping the three production files small enough that an additional derivative matrix is not required for this release.', 'The approved public hero assets are compact WebP files. They preserve the cinematic environmental compositions while keeping the four production files small enough that an additional derivative matrix is not required for this release.')
+          text = text.replace('The three production images were reviewed against the public image-direction brief:', 'The four production images were reviewed against the public image-direction brief:')
+          prov.write_text(text)
+
+          direction = Path('docs/image-direction.md')
+          text = direction.read_text()
+          text = text.replace('**Planned asset key:** `age-of-forms-hero`\n\nThis key is a production direction only until an approved source and manifest-backed public asset are created.', '**Asset key:** `age-of-forms-hero`\n\nThe approved production asset is manifest-backed and follows this public-safe visual direction.')
+          direction.write_text(text)
+
+          book4 = Path('docs/book-iv-visual-direction.md')
+          if book4.exists():
+              text = book4.read_text()
+              text = text.replace('The planned public asset key remains `age-of-forms-hero` until an approved source and manifest-backed derivatives exist.', 'The approved public hero asset key is `age-of-forms-hero`; the production asset is manifest-backed and may be regenerated through the normal responsive-media pipeline when derivative coverage is expanded.')
+              book4.write_text(text)
+
+          manifest_path = Path('public-manifest.json')
+          manifest = json.loads(manifest_path.read_text())
+          by_id = {entry['id']: entry for entry in manifest['artifacts']}
+          summaries = {
+              'hero-age-of-embers': 'Project-generated cinematic raster artwork of glacial migration beneath a red eclipsed sun.',
+              'hero-original': 'Project-generated cinematic raster artwork of a monumental civic river city and torchlit public procession in the Aurelian Republic.',
+              'hero-neurion': 'Project-generated cinematic raster artwork of a layered future city with distributed infrastructure beneath a planetary sky.',
+          }
+          for artifact_id, summary in summaries.items():
+              if artifact_id not in by_id:
+                  raise SystemExit(f'missing manifest artifact {artifact_id}')
+              by_id[artifact_id]['summary'] = summary
+
+          if 'hero-age-of-forms' not in by_id:
+              entry = {
+                  'id': 'hero-age-of-forms',
+                  'path': 'src/media/heroes/age-of-forms-hero.webp',
+                  'title': 'The Age of Forms hero',
+                  'summary': 'Project-generated cinematic raster artwork of a materially abundant future city with monumental bridges, waterfalls, layered public spaces, and distributed social attention.',
+                  'content_type': 'site-asset',
+                  'spoiler_tier': 'premise',
+                  'approval_state': 'approved',
+                  'rights_status': 'all-rights-reserved-project-artwork',
+                  'provenance_class': 'public-native',
+                  'publication_date': None,
+                  'canonical_url': '/media/heroes/age-of-forms-hero.webp',
+                  'checksum_sha256': '',
+                  'replacement_status': 'current',
+                  'creator_class': 'generated',
+                  'rights_basis': 'Project-generated original artwork approved for this public marketing release; no third-party source asset incorporated.',
+                  'attribution_required': False,
+                  'metadata_review': 'stripped',
+              }
+              insert_at = next(i for i, value in enumerate(manifest['artifacts']) if value['id'] == 'hero-neurion') + 1
+              manifest['artifacts'].insert(insert_at, entry)
+
+          for artifact in manifest['artifacts']:
+              path = Path(artifact['path']) if isinstance(artifact.get('path'), str) else None
+              if artifact.get('approval_state') in {'approved', 'published'} and path and path.is_file():
+                  artifact['checksum_sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+
+          manifest_path.write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
+          PY
+
+      - name: Validate integrated source
+        run: |
+          npm install --no-package-lock --no-audit --no-fund
+          node tools/validate-media-integrity.mjs
+          node tools/validate-canonical-origin.mjs
+          node tools/site.mjs source
+          node --test tests/ux.test.mjs
+
+      - name: Commit integrated refresh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src docs tools tests public-manifest.json
+          git rm .github/workflows/apply-four-book-hero-refresh.yml
+          git diff --cached --check
+          git commit -m 'Integrate refreshed four-book hero artwork'
+          git push origin HEAD:${GITHUB_REF_NAME}
