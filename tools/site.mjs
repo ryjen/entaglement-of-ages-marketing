@@ -371,10 +371,11 @@ export function validateHeroMedia(root = process.cwd()) {
     'src/books/prequel/index.html',
     'src/books/the-fatherless/index.html',
     'src/books/sequel/index.html',
+    'src/books/age-of-forms/index.html',
   ];
   const combined = pages.map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
   if (combined.includes('-hero.svg')) fail('public pages must not reference retired vector hero assets');
-  for (const name of ['age-of-embers-hero.webp', 'fatherless-original-hero.webp', 'neurion-hero.webp']) {
+  for (const name of ['age-of-embers-hero.webp', 'fatherless-original-hero.webp', 'neurion-hero.webp', 'age-of-forms-hero.webp']) {
     if (!combined.includes(name)) fail(`public pages must reference ${name}`);
     if (!fs.existsSync(path.join(root, 'src', 'media', 'heroes', name))) fail(`missing production hero: ${name}`);
   }
