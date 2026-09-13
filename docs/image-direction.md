@@ -139,9 +139,9 @@ Glowing robot face, chrome humanoid hero, Matrix code rain, neon cyberpunk alley
 
 ## Book IV — *The Age of Forms*
 
-**Planned asset key:** `age-of-forms-hero`
+**Asset key:** `age-of-forms-hero`
 
-This key is a production direction only until an approved source and manifest-backed public asset are created.
+The approved production asset is manifest-backed and follows this public-safe visual direction.
 
 ### Narrative job
 
