@@ -7,16 +7,17 @@ The production hero artwork is project-generated raster imagery created specific
 | `age-of-embers-hero.webp` | generated | Project-generated original artwork approved for this public release | stripped | prequel hero and trilogy card |
 | `fatherless-original-hero.webp` | generated | Project-generated original artwork approved for this public release | stripped | homepage landing hero, original hero, and trilogy card |
 | `neurion-hero.webp` | generated | Project-generated original artwork approved for this public release | stripped | sequel hero and trilogy card |
+| `age-of-forms-hero.webp` | generated | Project-generated original artwork approved for this public release | stripped | Book IV hero and series card |
 
 ## Production decision
 
-The approved public assets are compact 1200 x 675 WebP files. They preserve the cinematic environmental compositions while keeping the three production files small enough that an additional derivative matrix is not required for this release.
+The approved public hero assets are compact WebP files. They preserve the cinematic environmental compositions while keeping the four production files small enough that an additional derivative matrix is not required for this release.
 
 The source-generation prompts and canon-sensitive art reasoning remain outside the deployable public artifact set. Only reviewed public image bytes, public-safe alt text, and public provenance records are published here.
 
 ## Review
 
-The three production images were reviewed against the public image-direction brief:
+The four production images were reviewed against the public image-direction brief:
 
 - no devotional or Christianity-coded central figure;
 - no sepia/parchment/brown historical treatment;

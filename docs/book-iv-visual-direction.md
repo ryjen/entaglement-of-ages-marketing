@@ -2,7 +2,7 @@
 
 This document refines the public-safe visual direction for **Book IV — *The Age of Forms***. It is a presentation specification, not a canon source. Private manuscript text, hidden story mechanics, unpublished scene detail, and private provenance must not be copied here.
 
-The planned public asset key remains `age-of-forms-hero` until an approved source and manifest-backed derivatives exist.
+The approved public hero asset key is `age-of-forms-hero`; the production asset is manifest-backed and may be regenerated through the normal responsive-media pipeline when derivative coverage is expanded.
 
 ## Narrative job
 
