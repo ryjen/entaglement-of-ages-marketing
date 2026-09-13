@@ -4,7 +4,9 @@
 
 The public site is built from `src/` into generated `dist/` output. Pull requests and `main` use the same `mise run check` task graph: publication-boundary contracts, responsive-media checks, manifest-driven build validation, performance budgets, and Chromium browser smoke.
 
-GitHub Pages deploys only the validated `dist/` artifact. The deployment job has no private-repository checkout, deploy key, Personal Access Token, or cross-repository dependency.
+Only `main` is a public deployment authority. Pull-request runs and manual workflow dispatches from any non-`main` ref are validation-only: they must not upload a Pages artifact or run the `github-pages` deployment job.
+
+GitHub Pages deploys only the validated `dist/` artifact from `main`. The deployment job has no private-repository checkout, deploy key, Personal Access Token, or cross-repository dependency.
 
 `docs/` is repository documentation and **is not a Pages publishing source**. Pages must remain configured as **Settings → Pages → Source: GitHub Actions**.
 
@@ -33,9 +35,11 @@ One-time activation:
 
 1. Open repository **Settings → Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Run **Actions → Validate public site → Run workflow** or push a validated change to `main`.
+3. Run **Actions → Validate public site → Run workflow** on `main`, or push a validated change to `main`.
 4. Confirm validation and deployment jobs succeed.
 5. Confirm live deployment verification succeeds.
+
+A manual run against a non-`main` branch is expected to run validation only. It must not publish or replace the public Pages deployment.
 
 Before custom-domain attachment, the expected project origin is:
 
@@ -43,7 +47,7 @@ Before custom-domain attachment, the expected project origin is:
 
 ## Deployment verification
 
-GitHub Pages publication is a hard gate. The workflow requires `build_type: workflow`, publishes only the validated artifact, and fails if the Pages deployment fails.
+GitHub Pages publication is a hard gate. The workflow requires `build_type: workflow`, publishes only the validated artifact from `main`, and fails if the Pages deployment fails. Both artifact upload and deployment are explicitly guarded by `github.ref == 'refs/heads/main'`; event type alone is not sufficient publication authority.
 
 Without a custom domain, `tools/site.mjs origin` hard-verifies representative routes and the current base stylesheet.
 
@@ -65,13 +69,14 @@ Before DNS changes:
 - confirm public-content governance and anti-leak controls pass;
 - confirm the intended artifact passes `mise run check` from a fresh checkout;
 - confirm GitHub Pages reports `build_type: workflow`;
+- confirm the deployment source ref is `main`;
 - verify the direct Pages project origin;
 - confirm creative assets have explicit public rights/provenance records;
 - record current DNS/Cloudflare proxy, TLS, redirect, and cache state for rollback.
 
 Cutover sequence:
 
-1. Verify the direct Pages origin and record the successful workflow run.
+1. Verify the direct Pages origin and record the successful `main` workflow run.
 2. Configure the intended custom domain in GitHub Pages.
 3. Apply only the DNS records required for that domain.
 4. Verify the custom domain over HTTPS in a normal browser.
@@ -105,4 +110,4 @@ If origin, DNS, TLS, content integrity, redirect, or cache verification fails:
 5. confirm the previous known-good route is healthy;
 6. correct the failed condition before retrying.
 
-Never recover a failed deployment by granting this public repository access to private systems or by publishing unreviewed source material.
+Never recover a failed deployment by granting this public repository access to private systems, deploying from a non-`main` ref, or publishing unreviewed source material.
