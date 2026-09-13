@@ -16,12 +16,12 @@ depends = ["deps"]
 run = "node --test tests/*.test.mjs"
 
 [tasks.build]
-description = "Build dist from manifest-backed publishable source with content-addressed hero URLs"
+description = "Build dist from manifest-backed publishable source"
 depends = ["source"]
-run = "node tools/site.mjs build && node tools/version-built-media.mjs"
+run = "node tools/site.mjs build"
 
 [tasks.html]
-description = "Validate source and built HTML with the pinned offline HTML validator"
+description = "Validate source and manifest-backed built HTML with the pinned offline HTML validator"
 depends = ["build"]
 run = "npx --no-install html-validate \"src/**/*.html\" \"dist/**/*.html\""
 
@@ -31,9 +31,14 @@ depends = ["build"]
 run = "npx --no-install stylelint \"src/**/*.css\" \"dist/**/*.css\""
 
 [tasks.validate]
-description = "Validate the built artifact, content-addressed media, and performance budgets"
+description = "Validate the manifest-backed built artifact and performance budgets"
 depends = ["build"]
-run = "node tools/validate-built-media.mjs && node tools/site.mjs validate"
+run = "node tools/site.mjs validate"
+
+[tasks.package]
+description = "Package immutable hero media into the deployment artifact and validate final HTML"
+depends = ["html", "css", "validate"]
+run = "node tools/version-built-media.mjs && node tools/validate-built-media.mjs && npx --no-install html-validate \"dist/**/*.html\""
 
 [tasks."browser:install"]
 description = "Install Chromium and its hosted-runner dependencies"
@@ -41,11 +46,11 @@ depends = ["deps"]
 run = "npx playwright install --with-deps chromium"
 
 [tasks.browser]
-description = "Run browser smoke against the built public site"
-depends = ["validate", "browser:install"]
+description = "Run browser smoke against the final packaged public site"
+depends = ["package", "browser:install"]
 run = "node tools/site.mjs browser"
 
 [tasks.check]
-description = "Run the complete public-site validation gate"
-depends = ["contracts", "html", "css", "browser"]
+description = "Run the complete public-site validation and deployment-packaging gate"
+depends = ["contracts", "browser"]
 run = "node --check tools/site.mjs && node --check tools/version-built-media.mjs && node --check tools/validate-built-media.mjs && node --check tools/validate-media-integrity.mjs && node --check tools/validate-manifest-checksums.mjs && node --check tools/validate-canonical-origin.mjs && node --check tools/validate-release-state.mjs && node --check tools/validate-public-language.mjs"
